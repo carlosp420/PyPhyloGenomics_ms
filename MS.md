@@ -246,6 +246,10 @@ CEPiNS [@hasan2013] is a software pipeline that uses predicted gene sequences
 from both model and novel species to predict and identify exons suitable for
 sequencing useful for phylogenetic inference.
 
+# Acknowledgments
+We acknowledge CSC--IT Center for Science Ltd. (Finland) for the allocation of 
+computational resources.
+
 # References
 Targeted sequencing [@godden2012]
 
