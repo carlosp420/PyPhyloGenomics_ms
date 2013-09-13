@@ -28,3 +28,9 @@ separate_by_gene_filter_out_table: gene_NSG-033.fastq
 
 gene_NSG-033.fastq:	code/separate_by_gene_filter_out_table.py data/modified/wrk_ionfile_blastn_out.csv data/modified/wrk_ionfile.fastq
 	python code/separate_by_gene_filter_out_table.py
+
+
+clean: 
+	rm -rf data/modified
+	rm -rf output
+
