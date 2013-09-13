@@ -5,6 +5,8 @@ MS.pdf: MS.md refs.bib
 
 
 analysis: prepare_data separate_by_gene separate_by_gene_filter_out_table
+	t set active prim1atutu
+	t update "@carlosp420 finished analysis of ion data"
 
 ## Prepare raw NGS data (FASTQ file)
 # - creates a FASTQ file with the quality format changed from Phred to Solexa
