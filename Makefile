@@ -22,5 +22,9 @@ separate_by_gene: data/modified/wrk_ionfile_blastn_out.csv
 data/modified/wrk_ionfile_blastn_out.csv: code/separate_by_gene.py data/modified/wrk_ionfile.fasta data/genes.fasta
 	python code/separate_by_gene.py
 
-separate_by_gene_filter_out_table: code/separate_by_gene_filter_out_table.py data/modified/wrk_ionfile_blastn_out.csv data/modified/wrk_ionfile.fastq
+
+## filter out reads by gene
+separate_by_gene_filter_out_table: gene_NSG-033.fastq
+
+gene_NSG-033.fastq:	code/separate_by_gene_filter_out_table.py data/modified/wrk_ionfile_blastn_out.csv data/modified/wrk_ionfile.fastq
 	python code/separate_by_gene_filter_out_table.py
