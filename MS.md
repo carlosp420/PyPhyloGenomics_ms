@@ -35,12 +35,12 @@ However, researchers have been relying on the Sanger method for sequencing a
 handful of genes to be used in phylogenetic inference in several Lepidoptera
 groups [@matos2013; -@regier2013; @pena2011].
 
-Some studies have used NSG techniques to sequence miRNAs in phylogenomic analyses 
+Some studies have used NGS techniques to sequence miRNAs in phylogenomic analyses 
 of the high level relationships in Panarthropoda [@campbell2011].
 miRNAs are nonprotein coding RNAs of small length involved in
 DNA transcription and gene regulation. Using miRNAs for phylogenetics has the
 drawback that these molecules are not easy to sequence from genomic DNA as miRNAs
-are processed in the cell and shortened to \~ 22 base pair sequences
+are processed in the cell and shortened to \~22 base pair sequences
 [@wienholds2005].
 
 One issue to develop is a strategy to develop molecular markers or 
@@ -55,7 +55,7 @@ divergence since duplication. Paralogs are problematic for phylogenetic
 inference and these are not normally used because they can cause error and
 artifacts [@sanderson2002; @fares2005].
 
--@wahlberg2008 obtained candidate genes for phylogenomics by identifying single
+@wahlberg2008 obtained candidate genes for phylogenomics by identifying single
 copy and orthologus genes of *Bombyx mori* from EST libraries. They searched for
 EST sequences in the *Bombyx mori* genome in order to identify suitable exons.
 These exon sequences were compared against EST libraries of related Lepidoptera
@@ -64,7 +64,7 @@ method depends on the availability of EST sequences which are single reads of
 cDNA that might contain numerous errors and are prone to artefacts 
 [@parkinson2002].
 
--@regier2013 obtained nuclear gene sequences from mRNA by performing reverse 
+@regier2013 obtained nuclear gene sequences from mRNA by performing reverse 
 transcription and PCR amplification [@regier2007]. mRNAs are molecules 
 transcribed from genomic DNA that have had introns spliced and exons joined.
 Therefore, attempting to sequence these genes from genomic DNA for other 
@@ -87,7 +87,7 @@ RNA; (ii) it is simpler to preserve in the field; (iii) it can be sequenced even
 from dry material (for example museum specimens); and (iv) it is the most
 commonly used DNA in molecular systematics [-@wahlberg2008].
 
--@townsend2008 found candidate protein coding genes by BLASTing the genomes
+@townsend2008 found candidate protein coding genes by BLASTing the genomes
 *Fugu rubripes* (pufferfish) and *Homo sapiens*. The shared NPCL were compared
 to the genomes of other species in order to assess exon limits, align homologous
 sequences and design primers. Paralog genes were identified as those form the 
@@ -97,8 +97,8 @@ sequences and design primers. Paralog genes were identified as those form the
 Thus, a method is needed to find candidate genes that can be easily sequenced
 from genomic DNA across several lineages.
 One strategy to fulfill this goal could be comparing genomic sequences of model
-species and extract suitable genes that can be sequenced in novel species from 
-simple extractions of genomic DNA. 
+species and identify conserved regions to extract suitable genes that can be
+sequenced in novel species from simple extractions of genomic DNA. 
 
 In this paper, we describe a protocol for finding genes from genomic DNA that 
 are suitable for phylogenomic studies. 
@@ -117,8 +117,8 @@ be assembled for analysis in common software for phylogenetic inference.
 
 We are interested in studing the phylogenetic relationships of lineages in the 
 Lepidoptera. Hence, we decided to use the *Bombyx mori* genome as starting point 
-(although any genome can be used) to obtain candidate genes suitable fo
-r sequencing across novel species.
+(although any genome can be used) to obtain candidate genes suitable for
+sequencing across non-model species.
 As explained in the introduction, genes to be used in phylogenetic inference
 have to fulfill the following requirements: (i) the genes should be orthologs;
 (ii) the genes should be single-copy genes; (iii) their sequence need to be
@@ -140,11 +140,12 @@ We kept genes with sequences longer than 300bp in length, and separated by
 at least 810kb so that they can be considered independent evolutionary entities
 and obtained 575 exons.
 
-We validated those exons by automated search  of these exons in other genomes of
-species in Lepidoptera, such as, *Danaus*, *Heliconius* and *Manduca*.
+We validated those exons by searching for these exons in published 
+genomes of other Lepidoptera species, such as *Danaus*, *Heliconius* and
+*Manduca*.
 This search is automated by using functions in our module BLAST that take as
 input the list of genes from *Bombyx mori*, and the file with genomic sequences
-for the target species.
+from the other model species.
 During validation, PyPhyloGenomics creates FASTA format files by appending
 matching sequences from the tested genomes. It also automates the alignment of
 sequences by using the software MUSCLE.
@@ -152,14 +153,12 @@ sequences by using the software MUSCLE.
 PyPhyloGenomics contains functions to automatically design degenerate primers
 from the homologous sequences by delivering the sequences to primer4clades
 and receiving the designed primers. primer4clades is a web service based on the
-CODEHOP strategy for primer design [@contreras2009].
+CODEHOP strategy for primer design [@contreras2009] (it is recomended that
+automated alignments and primers are analyzed carefully to ensure good quality).
+After this step, one can have numerous candidate genes ready to be sequenced
+across novel Lepidoptera species using NGS techniques.
 
-It is recomended that both alignment and designed primers to be analyzed
-carefully to make sure that the are no problems. After this step, one can
-have around XXX genes ready to be sequenced across novel species in 
-Lepidoptera for many species if NGS techniques are used.
-
-### Sample preparation for Next Generation Sequencing in Ion Torrent
+## Sample preparation for Next Generation Sequencing in Ion Torrent
 We followed the library preparation protocol for NGS by @meyer2010 with minor
 modifications  for the Ion Torrent technology.
 This method consists in attaching and index
@@ -169,37 +168,13 @@ Therefore, it will be possible to separate reads from the NGS data according
 to index.
 
 We sequenced several individuals of a wide range of species in the Lepidoptera.
-We also sequenced specimens of the model species *Bombyx mori*, *Danaus?*,
-(codes ``XXX``)  as control samples in order to validate our NGS
-data assembly protocols.
-
-The Ion Torrent platform 2 can sequence from 280 to 320bp per read. The Ion Torrent
-adapter, index and primer sequences make around 119 base pairs in length, 
-leaving around 201 bp as the maximum internal gene region that can be sequenced
-(region within degenerate primers) (Table 1). This is the region per gene 
-(or exon) that is potentially informative for phylogenetic inference.
-
-**Table 1.** Adaptors and primers needed for sequencing in the NGS Ion Torrent
-platform 2. 
-The maximum length of sequenced amplicon is \~ 201 bp after discarding primer
-regions.
-
-  Primer                 Length (bp)
-  --------------------  ------------
-  Adapter A             30
-  5' Index              8
-  5' Degenerate Primer  25
-  Exon                  **119**
-  3' Degenerate Primer  25
-  3' Index              8
-  Adapter P             23
-  --------------------  ------------
-
-
+We also sequenced specimens of the model taxa *Bombyx mori* (voucher
+code NW149-2), *Heliconius charitonia*, (voucher code NW137-1) as control samples
+in order to validate our PyPhyloGenomics pipelines. 
 
 ## Next Generation output analysis
-The raw output data of the Ion Torrent was a FASTQ format file of XXX MB? and XXX
-short reads up to XX bp in length. 
+After the sequencing run, we downloaded a FASTQ file from the Ion Server 
+of XXX MB? and XXX short reads up to XX bp in length. 
 We created a BLAST database with the exon sequences  of candidate genes found
 after the exon validation of *B. mori*  genes across the genomes of the model
 Lepidoptera species.
@@ -246,6 +221,29 @@ CEPiNS [@hasan2013] is a software pipeline that uses predicted gene sequences
 from both model and novel species to predict and identify exons suitable for
 sequencing useful for phylogenetic inference.
 
+# Results
+The Ion Torrent platform 2 can sequence from 280 to 320bp per read. The Ion
+Torrent
+adapter, index and primer sequences make around 119 base pairs in length, 
+leaving around 201 bp as the maximum internal gene region that can be sequenced
+(region within degenerate primers) (Table 1). This is the region per gene 
+(or exon) that is potentially informative for phylogenetic inference.
+
+**Table 1.** Adaptors and primers needed for sequencing in the NGS Ion Torrent
+platform 2. 
+The maximum length of sequenced amplicon is \~ 201 bp after discarding primer
+regions.
+
+  Primer                 Length (bp)
+  --------------------  ------------
+  Adapter A             30
+  5' Index              8
+  5' Degenerate Primer  25
+  Exon                  **119**
+  3' Degenerate Primer  25
+  3' Index              8
+  Adapter P             23
+  --------------------  ------------
 # Acknowledgments
 We acknowledge CSC--IT Center for Science Ltd. (Finland) for the allocation of 
 computational resources.
