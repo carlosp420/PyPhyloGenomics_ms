@@ -4,7 +4,7 @@ MS.pdf: MS.md refs.bib
 	pandoc --latex-engine=xelatex -s -S --template header.latex -f markdown -V geometry:margin=1in MS.md --bibliography=refs.bib --csl=style/molbiolevol.csl -o MS.pdf
 
 
-analysis: prepare_data separate_by_gene separate_by_gene_filter_out_table
+analysis: prepare_data separate_by_gene separate_by_gene_filter_out_table separate_by_index
 	t set active prim1atutu
 	t update "@carlosp420 finished analysis of ion data"
 
@@ -30,6 +30,13 @@ separate_by_gene_filter_out_table: output/gene_NSG-033.fastq
 
 output/gene_NSG-033.fastq:	code/separate_by_gene_filter_out_table.py data/modified/wrk_ionfile_blastn_out.csv data/modified/wrk_ionfile.fastq
 	python code/separate_by_gene_filter_out_table.py
+
+
+## filter out reads by index
+separate_by_index: output/index_IonADA_464_gene_NSG-034.fastq
+
+output/index_IonADA_464_gene_NSG-034.fastq: output/gene_NSG-034.fastq data/indexes.fasta
+	python code/separate_by_index.py
 
 
 clean: 
