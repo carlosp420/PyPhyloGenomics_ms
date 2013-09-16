@@ -106,9 +106,8 @@ We describe the software package PyPhyloGenomics, written in Python language,
 that includes bioinformatic tools useful for automated gene finding, primer 
 design and NGS data analysis. We have used this software to find homologous 
 exons across genomes from several model organisms.
-Our software also includes tools to filter output reads from NGS and assemble
-the sequences for each specimen and their sequenced genes so that datasets can
-be assembled for analysis in common software for phylogenetic inference.
+Our software also includes tools to filter output reads from NGS and assembling
+sequences for each specimen.
 
 
 # Methods
@@ -133,7 +132,7 @@ obtained a list of single-copy, orthologous gene IDs for *Bombyx mori* (12 167
 genes in total).
 
 A function in our module BLAST extracted the sequences for those genes from
-the *Bombyx mori* CDS sequences (available at <http://silkdb.org>). We BLASTed
+the *Bombyx mori* CDS sequences [available at <http://silkdb.org>; @duan2010]. We BLASTed
 the sequences against the *Bombyx mori* genome and discarded those containing
 introns.
 We kept genes with sequences longer than 300bp in length, and separated by
@@ -141,8 +140,8 @@ at least 810kb so that they can be considered independent evolutionary entities
 and obtained 575 exons.
 
 We validated those exons by searching for these exons in published 
-genomes of other Lepidoptera species, such as *Danaus*, *Heliconius* and
-*Manduca*.
+genomes of other Lepidoptera species, such as *Danaus* [@zhan2011],
+*Heliconius* [@dasmahapatra2012] and *Manduca* <http://agripestbase.org/manduca/>.
 This search is automated by using functions in our module BLAST that take as
 input the list of genes from *Bombyx mori*, and the file with genomic sequences
 from the other model species.
