@@ -49,5 +49,4 @@ for file in glob.glob("output/index*"):
             output += "gaps=" + line[5]
             log.write(output + "\n")
 
-subprocess.check_call(cmd, shell=True)
 log.close()
