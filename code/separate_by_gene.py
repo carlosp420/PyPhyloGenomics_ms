@@ -4,7 +4,7 @@
 from pyphylogenomics import BLAST;
 
 query_seqs = "data/modified/wrk_ionfile.fasta";
-genome = "data/genes.fasta";
+genome = "data/genes_Bmori.fasta";
 BLAST.blastn(query_seqs, genome); 
 
 # output is a csv file in data/mofidied/wrk_ionfile_blastn_out.csv
