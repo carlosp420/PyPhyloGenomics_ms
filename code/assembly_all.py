@@ -10,7 +10,6 @@ import glob
 will log results to be parsed later. Try to find Bmori
 sequences"""
 
-list = open("list", "r");
 kmers = [31, 29, 27, 25]
 
 
