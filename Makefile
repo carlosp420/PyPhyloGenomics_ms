@@ -19,7 +19,7 @@ data/modified/wrk_ionfile.fasta data/modified/wrk_ionfile.fastq: data/Bmori_run.
 ## Separate reads by gene using BLAST
 separate_by_gene: data/modified/wrk_ionfile_blastn_out.csv
 
-data/modified/wrk_ionfile_blastn_out.csv: code/separate_by_gene.py data/modified/wrk_ionfile.fasta data/genes.fasta data/genes_Bmori.fasta data/genes_Bmori.fasta
+data/modified/wrk_ionfile_blastn_out.csv: code/separate_by_gene.py data/modified/wrk_ionfile.fasta data/genes_Bmori.fasta
 	python code/separate_by_gene.py
 
 
