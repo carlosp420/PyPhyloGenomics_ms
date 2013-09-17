@@ -1,6 +1,7 @@
-% PyPhyloGenomics: toolkit and protocol for developing phylogenetic markers in novel species for Next Generation Sequence data
-% Carlos Peña^*,1^; Victor Solis^2^; Pável Matos^3^; Chris Wheat^4^
-% 2013-05-08
+### Article
+
+## PyPhyloGenomics: toolkit and protocol for developing phylogenetic markers in novel species for Next Generation Sequence data
+Carlos Peña^*,1^; Victor Solis^2^; Pável Matos^3^; Chris Wheat^4^
 
 ^1^Laboratory of Genetics, Department of Biology, University of Turku, Turku, Finland
 
@@ -10,7 +11,10 @@
 
 ^4^Population Genetics, Department of Zoology, Stockholm University, Stockholm, Sweden
 
-***Corresponding author:** E-mail: <mycalesis@gmail.com>
+***Corresponding author:** Carlos Peña, E-mail: <mycalesis@gmail.com>
+
+# Abstract
+
 
 # Introduction
 Next Generation Sequencing (NGS) is considered a quantum leap in improvement
@@ -56,7 +60,7 @@ inference and these are not normally used because they can cause error and
 artifacts [@sanderson2002; @fares2005].
 
 @wahlberg2008 obtained candidate genes for phylogenomics by identifying single
-copy and orthologus genes of *Bombyx mori* from EST libraries. They searched for
+copy and orthologous genes of *Bombyx mori* from EST libraries. They searched for
 EST sequences in the *Bombyx mori* genome in order to identify suitable exons.
 These exon sequences were compared against EST libraries of related Lepidoptera
 species in order to obtain homologous sequences for primer design. This
@@ -109,8 +113,6 @@ exons across genomes from several model organisms.
 Our software also includes tools to filter output reads from NGS and assembling
 sequences for each specimen.
 
-
-# Methods
 
 ## The ``PyPhyloGenomics`` package
 The stable release of ``PyPhyloGenomics`` is available from the Python Package
@@ -179,8 +181,12 @@ across novel Lepidoptera species using NGS techniques.
 ## Sample preparation for Next Generation Sequencing in the Ion Torrent PGM
 We ordered the primers designed by ``PyPhyloGenomics`` for the candidate genes 
 from the company TAG Copenhagen A/S (Denmark) and used them to amplify
-these regions for many specimens from other Lepidoptera species using multiplexed
+these regions for many specimens in Lepidoptera species using multiplexed
 PCR reactions.
+We sequenced several individuals of a wide range of non-model species in the
+Lepidoptera.
+We also sequenced specimens of the model taxon *Bombyx mori* (voucher code NW149-2)
+as control sample in order to validate our ``PyPhyloGenomics`` software.
 
 We followed the library preparation protocol for Next Generation Sequencing
 by @meyer2010 with minor modifications for the Ion Torrent technology.
@@ -191,9 +197,6 @@ Therefore, it will be possible to sequence in one single run many genes for
 a number of specimens. During data analysis, the reads are separated 
 from the NGS data according to index.
 
-We sequenced several individuals of a wide range of species in the Lepidoptera.
-We also sequenced specimens of the model taxon *Bombyx mori* (voucher code NW149-2)
-as control sample in order to validate our ``PyPhyloGenomics`` software.
 
 ## Next Generation Sequencing output analysis
 After the sequencing run, we downloaded a FASTQ file from the Ion Server 
@@ -237,46 +240,36 @@ Although this proccess is automated, it is recommended to manually check the
 assembled sequences to discard errors and spurious sequences.
 
 # Conclusions and future directions
-We were able to 
+After comparing the genomes of model species in Lepidoptera, we were able to
+identify 219 orthologous genes with conserved exons of at least 300bp that
+can be used for sequencing in non-model butterfly and moths for phylogenetic
+inference.
 
-# Results
-The Ion Torrent platform 2 can sequence from 280 to 320bp per read. The Ion
-Torrent
-adapter, index and primer sequences make around 119 base pairs in length, 
-leaving around 201 bp as the maximum internal gene region that can be sequenced
-(region within degenerate primers) (Table 1). This is the region per gene 
-(or exon) that is potentially informative for phylogenetic inference.
+We used our software ``PyPhyloGenomics`` to automate gene search prodecures,
+align sequences and design primers. Although we used the genomes of only
+4 model species, it will be trivial to include additional genomes in the future
+for refining the validation of the candidate genes and design more specific
+primers.
 
-**Table 1.** Adaptors and primers needed for sequencing in the NGS Ion Torrent
-platform 2. 
-The maximum length of sequenced amplicon is \~ 201 bp after discarding primer
-regions.
+We applied stringent parameters for quality control and assembly of consensus
+sequences from the Ion Torrent reads and validated our protocols by obtaining
+sequences of *Bombyx mori* for our candidate genes that match those in its
+published genome.
 
-  Primer                 Length (bp)
-  --------------------  ------------
-  Adapter A             30
-  5' Index              8
-  5' Degenerate Primer  25
-  Exon                  **119**
-  3' Degenerate Primer  25
-  3' Index              8
-  Adapter P             23
-  --------------------  ------------
+Therefore, we belive that our toolkit ``PyPhyloGenomics`` in combination with
+the Next Generation Sequencing technology can help obtainig and sequencing many
+genes for phylogenetic inference, many more than the 20 or so currently being
+used in the field of Lepidoptera phylogenetics.
+
 
 # Acknowledgments
 We acknowledge CSC--IT Center for Science Ltd. (Finland) for the allocation of 
 computational resources.
 We are grateful with Olaf Thalmann, Eero Vesterinen and Meri Lindqvist for help
-with the laboratory protocols and running the Ion Torrent.
+with the laboratory protocols and running the Ion Torrent PGM.
+The study was supported by a Kone Foundation grant (awarded to Niklas Wahlberg), 
+Finland (C. Peña) and XXXXXXX- yyyyyyyyyy-zzzzzzzzzz.
 
-## Other software
-CEPiNS [@hasan2013] is a software pipeline that uses predicted gene sequences
-from both model and novel species to predict and identify exons suitable for
-sequencing useful for phylogenetic inference.
 
 # References
-Targeted sequencing [@godden2012]
-
-
-
 

@@ -4,6 +4,14 @@ MS.pdf: MS.md refs.bib header.latex style/molbiolevol.csl
 	pandoc --latex-engine=xelatex -s -S --template header.latex -f markdown -V geometry:margin=1in MS.md --bibliography=refs.bib --csl=style/molbiolevol.csl -o MS.pdf
 
 
+
+docx: MS.docx
+
+MS.docx: MS.md refs.bib style/molbiolevol.csl
+	pandoc -f markdown -V geometry:margin=1in -t docx MS.md --bibliography=refs.bib --csl=style/molbiolevol.csl -o MS.docx
+
+
+
 analysis: prepare_data separate_by_gene separate_by_gene_filter_out_table separate_by_index assembly
 
 ## Prepare raw NGS data (FASTQ file)
