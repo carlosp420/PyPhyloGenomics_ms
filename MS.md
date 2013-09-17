@@ -33,7 +33,7 @@ more than the 12 to 19 loci that so far have been used in phylogenomic studies
 [@wahlberg2008; @regier2013].
 However, researchers have been relying on the Sanger method for sequencing a
 handful of genes to be used in phylogenetic inference in several Lepidoptera
-groups [@matos2013; -@regier2013; @pena2011].
+groups [@matos2013; @regier2013; @pena2011].
 
 Some studies have used NGS techniques to sequence miRNAs in phylogenomic analyses 
 of the high level relationships in Panarthropoda [@campbell2011].
@@ -85,7 +85,7 @@ Moreover, genomic DNA can be used for sequencing NPCL, which has
 several advantages: (i) genomic DNA does not degrade so quickly as
 RNA; (ii) it is simpler to preserve in the field; (iii) it can be sequenced even
 from dry material (for example museum specimens); and (iv) it is the most
-commonly used DNA in molecular systematics [-@wahlberg2008].
+commonly used DNA in molecular systematics [@wahlberg2008].
 
 @townsend2008 found candidate protein coding genes by BLASTing the genomes
 *Fugu rubripes* (pufferfish) and *Homo sapiens*. The shared NPCL were compared
@@ -141,23 +141,24 @@ and obtained 575 exons.
 
 We validated those exons by searching for these exons in published 
 genomes of other Lepidoptera species, such as *Danaus* [@zhan2011],
-*Heliconius* [@dasmahapatra2012] and *Manduca* <http://agripestbase.org/manduca/>.
+*Heliconius* [@dasmahapatra2012] and *Manduca* (<http://agripestbase.org/manduca/>).
 This search is automated by using functions in our module BLAST that take as
-input the list of genes from *Bombyx mori*, and the file with genomic sequences
+input the list of genes from *Bombyx mori*, and the genomic sequences
 from the other model species.
 During validation, PyPhyloGenomics creates FASTA format files by appending
 matching sequences from the tested genomes. It also automates the alignment of
 sequences by using the software MUSCLE.
 
 PyPhyloGenomics contains functions to automatically design degenerate primers
-from the homologous sequences by delivering the sequences to primer4clades
-and receiving the designed primers. primer4clades is a web service based on the
-CODEHOP strategy for primer design [@contreras2009] (it is recomended that
-automated alignments and primers are analyzed carefully to ensure good quality).
+from the homologous sequences by delivering the sequences to *primer4clades*
+[@contreras2009] and receiving the designed primers. 
+*primer4clades* is a web service based on the
+CODEHOP strategy for primer design [@rose1998]. It is recomended that
+automated alignments and primers are analyzed carefully to ensure good quality.
 After this step, one can have numerous candidate genes ready to be sequenced
 across novel Lepidoptera species using NGS techniques.
 
-## Sample preparation for Next Generation Sequencing in Ion Torrent
+## Sample preparation for Next Generation Sequencing in the Ion Torrent PGM
 We followed the library preparation protocol for NGS by @meyer2010 with minor
 modifications  for the Ion Torrent technology.
 This method consists in attaching and index
@@ -167,9 +168,8 @@ Therefore, it will be possible to separate reads from the NGS data according
 to index.
 
 We sequenced several individuals of a wide range of species in the Lepidoptera.
-We also sequenced specimens of the model taxa *Bombyx mori* (voucher
-code NW149-2), *Heliconius charitonia*, (voucher code NW137-1) as control samples
-in order to validate our PyPhyloGenomics pipelines. 
+We also sequenced specimens of the model taxon *Bombyx mori* (voucher code NW149-2)
+as control sample in order to validate our PyPhyloGenomics pipelines.
 
 ## Next Generation output analysis
 After the sequencing run, we downloaded a FASTQ file from the Ion Server 
@@ -213,7 +213,7 @@ creation of datasets to be used in phylogenetic analysis later on.
 
 
 ## Comparison with other methods
-@regier2009, @regier2008, -@regier2013 use Reverse Transcription PCR from mRNAs to avoid sequencing introns, although the corresponing genomic DNA sequences are  likely to include introns. Therefore if one use their genes, it is not recommended to do "direct gene amplification" [-@regier2007].
+@regier2009, @regier2008, @regier2013 use Reverse Transcription PCR from mRNAs to avoid sequencing introns, although the corresponing genomic DNA sequences are  likely to include introns. Therefore if one use their genes, it is not recommended to do "direct gene amplification" [@regier2007].
 
 ## Other software
 CEPiNS [@hasan2013] is a software pipeline that uses predicted gene sequences
