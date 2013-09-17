@@ -102,7 +102,7 @@ sequenced in novel species from simple extractions of genomic DNA.
 
 In this paper, we describe a protocol for finding genes from genomic DNA that 
 are suitable for phylogenomic studies. 
-We describe the software package PyPhyloGenomics, written in Python language,
+We describe the software package ``PyPhyloGenomics``, written in the Python language,
 that includes bioinformatic tools useful for automated gene finding, primer 
 design and NGS data analysis. We have used this software to find homologous 
 exons across genomes from several model organisms.
@@ -112,8 +112,26 @@ sequences for each specimen.
 
 # Methods
 
-## Finding candidate genes from *Bombyx mori*
+## The ``PyPhyloGenomics`` package
+The stable release of ``PyPhyloGenomics`` is available from the Python Package
+Index (<https://pypi.python.org/pypi/PyPhyloGenomics>) for direct installation
+of the most recent version using ``pip`` (a Python package installer). 
+The development versions are available from github 
+(<https://github.com/carlosp420/PyPhyloGenomics>). The full 
+documentation and user guide are available from the github pages 
+(<http://carlosp420.github.io/PyPhyloGenomics/>).
+``PyPhyloGenomics`` is conceived as a workflow using its four modules. Selection 
+of orthologous genes using the module ``OrthoDB``; search of genes in a set of
+predicted genes from a model organism, extraction of genomic sequences for 
+candidate genes from the model organisms, and validation of genes across genomes of
+other model organisms using the module ``BLAST``; alignment and primer design from
+genomic sequences for candidate genes using the module ``MUSCLE``; and 
+analysis of raw data from Next Generation Sequencing in the Ion Torrent PGM using
+the module ``NGS``.
+Below, we describe a working example of a study from gene search for phylogenetic
+studies through analysis of sequenced data and assembly of Ion Torrent reads.
 
+## Finding candidate genes from *Bombyx mori*
 We are interested in studing the phylogenetic relationships of lineages in the 
 Lepidoptera. Hence, we decided to use the *Bombyx mori* genome as starting point 
 (although any genome can be used) to obtain candidate genes suitable for
@@ -127,7 +145,7 @@ Generation Sequencer, an Ion Torrent PGM sequencer from Life Technologies
 
 The OrthoDB database <ftp://cegg.unige.ch/OrthoDB6/> has a catalog of orthologous
 protein-coding genes for vertebrates, arthropods and other living groups.
-We parsed this list with the module OrthoDB from our package PyPhyloGenomics and 
+We parsed this list with the module OrthoDB from our package ``PyPhyloGenomics`` and 
 obtained a list of single-copy, orthologous gene IDs for *Bombyx mori* (12 167
 genes in total).
 
@@ -145,11 +163,11 @@ genomes of other Lepidoptera species, such as *Danaus* [@zhan2011],
 This search is automated by using functions in our module BLAST that take as
 input the list of genes from *Bombyx mori*, and the genomic sequences
 from the other model species.
-During validation, PyPhyloGenomics creates FASTA format files by appending
+During validation, ``PyPhyloGenomics`` creates FASTA format files by appending
 matching sequences from the tested genomes. It also automates the alignment of
 sequences by using the software MUSCLE.
 
-PyPhyloGenomics contains functions to automatically design degenerate primers
+``PyPhyloGenomics`` contains functions to automatically design degenerate primers
 from the homologous sequences by delivering the sequences to *primer4clades*
 [@contreras2009] and receiving the designed primers. 
 *primer4clades* is a web service based on the
@@ -159,66 +177,67 @@ After this step, one can have numerous candidate genes ready to be sequenced
 across novel Lepidoptera species using NGS techniques.
 
 ## Sample preparation for Next Generation Sequencing in the Ion Torrent PGM
-We followed the library preparation protocol for NGS by @meyer2010 with minor
-modifications  for the Ion Torrent technology.
+We ordered the primers designed by ``PyPhyloGenomics`` for the candidate genes 
+from the company TAG Copenhagen A/S (Denmark) and used them to amplify
+these regions for many specimens from other Lepidoptera species using multiplexed
+PCR reactions.
+
+We followed the library preparation protocol for Next Generation Sequencing
+by @meyer2010 with minor modifications for the Ion Torrent technology.
 This method consists in attaching and index
 (or barcode) to the amplified PCR products of each specimen previous to 
 sequencing.
-Therefore, it will be possible to separate reads from the NGS data according
-to index.
+Therefore, it will be possible to sequence in one single run many genes for
+a number of specimens. During data analysis, the reads are separated 
+from the NGS data according to index.
 
 We sequenced several individuals of a wide range of species in the Lepidoptera.
 We also sequenced specimens of the model taxon *Bombyx mori* (voucher code NW149-2)
-as control sample in order to validate our PyPhyloGenomics pipelines.
+as control sample in order to validate our ``PyPhyloGenomics`` software.
 
-## Next Generation output analysis
+## Next Generation Sequencing output analysis
 After the sequencing run, we downloaded a FASTQ file from the Ion Server 
-of XXX MB? and XXX short reads up to XX bp in length. 
-We created a BLAST database with the exon sequences  of candidate genes found
-after the exon validation of *B. mori*  genes across the genomes of the model
+of 61 Mb, including more than 146,000 short reads of around 250bp in length from an
+Ion Torrent PGM run using the 314 chip. 
+The ``PyPhyloGenomics`` module ``NGS`` has the function ``prepare_data`` that
+converted the Ion Torrent FASTQ file to Solexa quality format (suitable for
+the ``fastx-toolkit``), created a FASTA file with indexes trimmed to be used in a BLAST
+against the exon sequences of the expected genes that were found
+during the validation of *Bombyx mori* genes across the genomes of the model
 Lepidoptera species.
-We used blasted the find NGS reads against this database in order to find 
-those matching the homologous regions of the candidate genes. 
-All reads were separated in bins according to the match against
-candidate genes.
+After blasting the NGS reads against this expected genes, all reads were separated
+in bins according to the match against candidate genes.
 
-We separated reads from each bin according to each specimen index (or barcode).
-The sequencing process produced many reads with errors in the barcode section.
-Thus, we measured the Levenshtein distance between the sequenced index region
-and our indexes in order to measure the number of nucleotide changes needed to
-convert one index into the other. 
+We separated reads from each bin according to specimen index (or barcode) 
+by using the function ``separate_by_index`` in the module ``NGS``.
+It is common that the sequencing process outputs reads with errors in the index
+section.
+Thus, we measured the Levenshtein distance among our indexes in order to 
+find out the number of nucleotide changes needed to
+convert one index into another [although other methods have been proposed
+recently; @buschmann2013]. 
 We assumed indexes to be the same if the Levenshtein distance was smaller than
-2 units (as our indexes differ in two or more nucleotides). Our module XXX in 
-PyPhyloGenomics is able to do the separation according to indexes taking
-into account Levenshtein distances and compare the forward and reverse
+2 units (as our indexes differ in two or more nucleotides). Our module ``NGS``
+is able to do the separation according to indexes (taking as parameter 
+the user defined Levenshtein distance value) and compare the forward and reverse
 complement of the index sequences.
 
-We performed quality control of the reads using the software fastx_tools
-and assembled consensus sequences for each bin containing reads for specimen
-using the *velvet* assembler [@zerbino2008]. 
+We performed quality control of the reads using the function 
+``quality_control`` that employs the software ``fastx-toolkit`` 
+to keep reads with high quality values, trim low quality ends and indexes.
+The function ``assembly`` uses the *velvet* assembler [@zerbino2008]to guess
+optimal parameters to perform *de novo* assembly of the reads into consensus
+sequences for each bin containing reads of each specimen.
 
-Our functions in PyPhyloGenomics automate this process and require as input
-the parameters needed for triming low quality reads, triming of indexes and 
-coverage threshold for assembly in velvet.
+Our function ``NGS.assembly`` in ``PyPhyloGenomics`` automates this process
+and requires as input parameters for triming low quality reads, triming of 
+indexes and coverage threshold for assembly in *velvet*. The output file is 
+a FASTA format file containing the assembled sequences per specimen and gene.
+Although this proccess is automated, it is recommended to manually check the
+assembled sequences to discard errors and spurious sequences.
 
-The output file is a FASTA format file containing the assembled sequences per
-specimen and gene.
-
-It is recommended to manually check the assembled sequences to discard errors
-and spurious sequences.
-
-We uploaded all our sequences to our molecular database software 
-VoSeq [@pena2012] for
-creation of datasets to be used in phylogenetic analysis later on.
-
-
-## Comparison with other methods
-@regier2009, @regier2008, @regier2013 use Reverse Transcription PCR from mRNAs to avoid sequencing introns, although the corresponing genomic DNA sequences are  likely to include introns. Therefore if one use their genes, it is not recommended to do "direct gene amplification" [@regier2007].
-
-## Other software
-CEPiNS [@hasan2013] is a software pipeline that uses predicted gene sequences
-from both model and novel species to predict and identify exons suitable for
-sequencing useful for phylogenetic inference.
+# Conclusions and future directions
+We were able to 
 
 # Results
 The Ion Torrent platform 2 can sequence from 280 to 320bp per read. The Ion
@@ -243,9 +262,17 @@ regions.
   3' Index              8
   Adapter P             23
   --------------------  ------------
+
 # Acknowledgments
 We acknowledge CSC--IT Center for Science Ltd. (Finland) for the allocation of 
 computational resources.
+We are grateful with Olaf Thalmann, Eero Vesterinen and Meri Lindqvist for help
+with the laboratory protocols and running the Ion Torrent.
+
+## Other software
+CEPiNS [@hasan2013] is a software pipeline that uses predicted gene sequences
+from both model and novel species to predict and identify exons suitable for
+sequencing useful for phylogenetic inference.
 
 # References
 Targeted sequencing [@godden2012]

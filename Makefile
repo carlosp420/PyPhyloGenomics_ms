@@ -1,6 +1,6 @@
 pdf: MS.pdf
 
-MS.pdf: MS.md refs.bib
+MS.pdf: MS.md refs.bib header.latex style/molbiolevol.csl
 	pandoc --latex-engine=xelatex -s -S --template header.latex -f markdown -V geometry:margin=1in MS.md --bibliography=refs.bib --csl=style/molbiolevol.csl -o MS.pdf
 
 
