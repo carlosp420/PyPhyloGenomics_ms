@@ -10,8 +10,25 @@ docx: MS.docx
 MS.docx: MS.md refs.bib style/molbiolevol.csl
 	pandoc -f markdown -V geometry:margin=1in -t docx MS.md --bibliography=refs.bib --csl=style/molbiolevol.csl -o MS.docx
 
+####
+# Do gene search
+#
+gene_search: data/pulled_seqs.fasta data/pulled_seqs_blastn_out.csv data/Bombyx_exons.fas
+
+data/pulled_seqs.fasta: data/OrthoDB6_Arthropoda_tabtext.csv data/silkcds.fa code/start_gene_search.py
+	python code/start_gene_search.py
+
+data/pulled_seqs_blastn_out.csv: code/gene_search_blast1.py data/pulled_seqs.fasta data/silkgenome.fa
+	python code/gene_search_blast1.py
+
+data/Bombyx_exons.fas: code/gene_search_blast_filtering_exons.py data/pulled_seqs_blastn_out.csv data/pulled_seqs.fasta
+	python code/gene_search_blast_filtering_exons.py
 
 
+
+####
+# Analysis NGS data
+#
 analysis: prepare_data separate_by_gene separate_by_gene_filter_out_table separate_by_index assembly
 
 ## Prepare raw NGS data (FASTQ file)
