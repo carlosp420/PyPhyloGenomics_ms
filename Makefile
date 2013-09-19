@@ -13,7 +13,7 @@ MS.docx: MS.md refs.bib style/molbiolevol.csl
 ####
 # Do gene search
 #
-gene_search: data/pulled_seqs.fasta data/pulled_seqs_blastn_out.csv data/Bombyx_exons.fas
+gene_search: data/pulled_seqs.fasta data/pulled_seqs_blastn_out.csv data/Bombyx_exons.fas blast_danaus blast_heliconius blast_manduca alignments/*.fasta
 
 data/pulled_seqs.fasta: data/OrthoDB6_Arthropoda_tabtext.csv data/silkcds.fa code/start_gene_search.py
 	python code/start_gene_search.py
@@ -24,6 +24,39 @@ data/pulled_seqs_blastn_out.csv: code/gene_search_blast1.py data/pulled_seqs.fas
 data/Bombyx_exons.fas: code/gene_search_blast_filtering_exons.py data/pulled_seqs_blastn_out.csv data/pulled_seqs.fasta
 	python code/gene_search_blast_filtering_exons.py
 
+# validate against Danaus plexippus
+blast_danaus: data/Danaus_exons.fasta
+
+data/Bombyx_exons_blastn_out.csv: data/Bombyx_exons.fas data/Dp_genome_v2.fasta code/blast_against_models.py
+	python code/blast_against_models.py data/Bombyx_exons.fas data/Dp_genome_v2.fasta
+
+data/Danaus_exons.fasta: data/Bombyx_exons_blastn_out.csv data/Dp_genome_v2.fasta code/parse_blast_against_models.py
+	python code/parse_blast_against_models.py data/Bombyx_exons_blastn_out.csv data/Dp_genome_v2.fasta data/Danaus_exons.fasta Danaus
+
+# validate against Heliconius melpomene
+blast_heliconius: data/Heliconius_exons.fasta
+	
+data/Heliconius_exons.fasta: code/blast.py code/parse_blast.py data/Bombyx_exons.fas data/Heliconius_genome.fa 
+	rm -rf data/Bombyx_exons_blastn_out.csv
+	python code/blast.py data/Bombyx_exons.fas data/Heliconius_genome.fa
+	python code/parse_blast.py data/Bombyx_exons_blastn_out.csv data/Heliconius_genome.fa data/Heliconius_exons.fasta Heliconius
+
+# validate against Manduca sexta
+blast_manduca: data/Manduca_exons.fasta
+
+data/Manduca_exons.fasta: code/blast.py code/parse_blast.py data/Bombyx_exons.fas data/Msex05162011.genome.fa
+	rm -rf data/Bombyx_exons_blastn_out.csv
+	python code/blast.py data/Bombyx_exons.fas data/Msex05162011.genome.fa
+	python code/parse_blast.py data/Bombyx_exons_blastn_out.csv data/Msex05162011.genome.fa data/Manduca_exons.fasta Manduca
+	rm -rf data/Bombyx_exons_blastn_out.csv
+
+
+##
+# align taxa exons using MUSCLE
+alignments: alignments/*.fasta
+	
+alignments/*.fasta: code/do_alignment.py data/Bombyx_exons.fas data/Danaus_exons.fasta data/Heliconius_exons.fasta data/Manduca_exons.fasta
+	python code/do_alignment.py
 
 
 ####
@@ -74,4 +107,9 @@ output/index_IonADA_464_gene_NSG-034_Bmori.fastq_assembled.fasta: code/assembly_
 clean: 
 	rm -rf data/modified
 	rm -rf output
+	rm -rf alignments
+	rm -rf data/*asnb
+	rm -rf data/*.n*
+	rm -rf data/*exons*
+	rm -rf data/pulled_seqs.fasta
 
