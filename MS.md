@@ -69,9 +69,6 @@ in eukaryotic genes that are discarded during the process of protein synthesis
 [@page1998] and can vary widely in size among different species [@carvalho1999].
 Thus, it might be difficult to amplify DNA fragments and assess homology for base
 pair positions if the sequences vary significantly in length among the studied species.
-However, introns have been useful in other phylogenetic studies of certain organisms
-at lower taxonomical level due to the higher amount of character variation
-[e.g. @prychitko1997; @fujita2004].
 
 Nuclear protein coding loci (NPCL) are the preferred markers in phylogenetic
 inference due to appropiate mutation rates, effortless alignment of sequences and
@@ -139,15 +136,15 @@ this list with the module OrthoDB from our package ``PyPhyloGenomics`` and obtai
 a list of single-copy, orthologous gene IDs for *Bombyx mori* (12 167 genes in
 total).
 
-A function in our module BLAST extracted the sequences for the genes, found using
-OrthoDB, from the CDS sequences of *Bombyx mori* [available at <http://silkdb.org>;
-@duan2010]. We BLASTed the sequences against the *Bombyx mori* genome and discarded
-those containing introns.
-We kept genes with sequences longer than 300bp in length, and separated by at least
+A function in our module BLAST extracted the coding sequences (CDS) for the genes, found using
+OrthoDB, from the *Bombyx mori* CDS file [available at <http://silkdb.org>;
+@duan2010]. We BLASTed the CDSs against the *Bombyx mori* genome to split them in 
+exons.
+We kept exons with sequences longer than 300bp in length, and separated by at least
 810kb within *Bombyx mori* chromosomes so that they can be considered independent
 evolutionary entities. We obtained 574 exons.
 
-We validated those exons by searching for these exons in published genomes of other
+We validated those exons by searching for them in published genomes of other
 Lepidoptera species, such as *Danaus* [@zhan2011], *Heliconius* [@dasmahapatra2012]
 and *Manduca* (<http://agripestbase.org/manduca/>).
 This search is automated by using functions in our module BLAST that take as input
@@ -177,7 +174,7 @@ consists in attaching an index (or barcode of 8 base pairs) to the amplified PCR
 specimen before sequencing.
 Therefore, it will be possible to sequence in one single run many genes for a number
 of specimens. During data analysis, the reads are separated from the NGS data
-according to index sequence.
+according to their index sequence.
 
 
 ## Next Generation Sequencing output analysis
@@ -194,8 +191,7 @@ We separated reads from each bin according to specimen index (or barcode) by usi
 the function ``separate_by_index`` in the module ``NGS``. It is common that the
 sequencing process outputs reads with errors in the index section.
 Thus, we measured the Levenshtein distance among our indexes in order to find out
-the number of nucleotide changes needed to convert one index into another 
-[although other methods have been proposed recently; @buschmann2013]. 
+the number of nucleotide changes needed to convert one index into another. 
 We assumed indexes to be the same if the Levenshtein distance was smaller than 2
 units (as our indexes differ in two or more nucleotides). Our module ``NGS`` is able
 to do the separation according to indexes (taking as parameter the user defined
