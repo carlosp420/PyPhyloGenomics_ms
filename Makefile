@@ -1,14 +1,19 @@
-pdf: MS.pdf
-
-MS.pdf: MS.md refs.bib header.latex style/molbiolevol.csl
-	pandoc --latex-engine=xelatex -s -S --template header.latex -f markdown -V geometry:margin=1in MS.md --bibliography=refs.bib --csl=style/molbiolevol.csl -o MS.pdf
-
+SRC = $(wildcard *.md)
+PDFS = $(SRC:.md=.pdf)
+DOCS = $(SRC:.md=.docx)
 
 
-docx: MS.docx
+pdf: $(PDFS)
 
-MS.docx: MS.md refs.bib style/molbiolevol.csl
-	pandoc -f markdown -V geometry:margin=1in -t docx MS.md --bibliography=refs.bib --csl=style/molbiolevol.csl -o MS.docx
+%.pdf: %.md refs.bib header.latex style/molbiolevol.csl
+	pandoc --latex-engine=xelatex -s -S --template header.latex -f markdown -V geometry:margin=1in $< --bibliography=refs.bib --csl=style/molbiolevol.csl -o $@
+
+
+docx: $(DOCS)
+
+%.docx: %.md refs.bib style/molbiolevol.csl
+	pandoc -f markdown -V geometry:margin=1in -t docx $< --bibliography=refs.bib --csl=style/molbiolevol.csl -o $@
+
 
 ####
 # Do gene search
